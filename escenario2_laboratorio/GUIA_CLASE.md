@@ -64,23 +64,25 @@ http://localhost/lab_seguridad
 5. Mostrar "Alerts"
 ```
 
-### Resultados Demo
+### Resultados del Análisis
 
 ```
-🔴 High:     6 vulnerabilidades
-🟠 Medium:   4 vulnerabilidades  
-🟡 Low:      8 vulnerabilidades
-────────────────────────────────
-Total:       18 hallazgos
+🔴 High:          4 vulnerabilidades (22.2%)
+🟠 Medium:        4 vulnerabilidades (22.2%)
+🟡 Low:           4 vulnerabilidades (22.2%)
+ℹ️  Informational: 6 vulnerabilidades (33.3%)
+──────────────────────────────────────────────
+Total:            18 hallazgos (100%)
 ```
-
-**Nota:** Pre-ejecutar scan completo antes de clase, guardar sesión
 
 ---
 
 ## 🚨 5. Vulnerabilidades Críticas (20 min)
 
-### A. SQL Injection 🔴
+### A. SQL Injection - MySQL 🔴 (30 instancias)
+
+**ZAP Report:** High Risk, Medium Confidence  
+**Ubicación:** `POST http://192.168.60.3/app_vulnerable/login.php`
 
 **Código vulnerable:**
 ```php
@@ -106,11 +108,15 @@ SELECT * FROM usuarios WHERE username = '' OR '1'='1' AND ...
 -- Resultado: Siempre TRUE
 ```
 
-**Impacto:** Control total de la BD, bypass de autenticación
+**Impacto:** Control total de la BD, bypass de autenticación  
+**Instancias encontradas por ZAP:** 30 vulnerabilidades (166.7% del total)
 
 ---
 
-### B. XSS Reflejado 🔴
+### B. XSS Reflejado (Reflected) 🔴 (14 instancias)
+
+**ZAP Report:** High Risk, Medium Confidence  
+**Ubicación:** `GET http://192.168.60.3/app_vulnerable/usuarios.php?search=<scrIpt>alert(1);</scRipt>`
 
 **Descripción:** El XSS reflejado se produce cuando los datos proporcionados por el usuario se reflejan en la respuesta del servidor sin la debida validación o escape.
 
@@ -137,11 +143,15 @@ Búsqueda:
 </script>
 ```
 
-**Impacto:** Robo de sesiones, phishing, keylogging
+**Impacto:** Robo de sesiones, phishing, keylogging  
+**Instancias encontradas por ZAP:** 14 vulnerabilidades (77.8% del total)
 
 ---
 
-### C. XSS Almacenado 🔴
+### C. XSS Almacenado (Persistent) 🔴 (9 instancias)
+
+**ZAP Report:** High Risk, Medium Confidence  
+**Ubicación:** `GET http://192.168.60.3/app_vulnerable/usuarios.php`
 
 **Descripción:** El XSS almacenado ocurre cuando los datos maliciosos se guardan en el servidor (por ejemplo, en una base de datos) y se muestran a otros usuarios sin la debida validación o escape.
 
@@ -155,11 +165,39 @@ Descripción: <img src=x onerror="alert('XSS')">
 → Cada vez que alguien vea el producto, ejecuta el script
 ```
 
-**Impacto:** Ataque persistente a todos los visitantes
+**Impacto:** Ataque persistente a todos los visitantes  
+**Instancias encontradas por ZAP:** 9 vulnerabilidades (50.0% del total)
 
 ---
 
-### D. CSRF 🟠
+### D. Path Traversal 🔴 (2 instancias)
+
+**ZAP Report:** High Risk, Low Confidence  
+**Ubicación:** `POST http://192.168.60.3/app_vulnerable/usuarios.php?delete=1`
+
+**Descripción:** Permite acceso a archivos fuera del directorio web mediante rutas relativas.
+
+**Código vulnerable:**
+```php
+$file = $_GET['file'];
+include("uploads/" . $file);
+```
+
+**Ataque:**
+```
+?file=../../../etc/passwd
+→ Acceso a archivos del sistema
+```
+
+**Impacto:** Lectura de archivos sensibles, ejecución de código  
+**Instancias encontradas por ZAP:** 2 vulnerabilidades (11.1% del total)
+
+---
+
+### E. Absence of Anti-CSRF Tokens 🟠 (173 instancias)
+
+**ZAP Report:** Medium Risk, Low Confidence  
+**Ubicación:** `GET http://192.168.60.3/app_vulnerable/login.php`
 
 **Descripción:** El CSRF (Cross-Site Request Forgery) es un tipo de ataque que fuerza al navegador a ejecutar acciones no deseadas en una aplicación web en la que el usuario está autenticado.
 
@@ -182,19 +220,46 @@ if (isset($_GET['delete'])) {
 <img src="http://localhost/lab_seguridad/usuarios.php?delete=1">
 ```
 
-**Impacto:** Acciones no autorizadas
+**Impacto:** Acciones no autorizadas  
+**Instancias encontradas por ZAP:** 173 vulnerabilidades (961.1% del total - ¡todos los formularios!)
 
 ---
 
-### E. Broken Authentication 🟠
+### F. Application Error Disclosure 🟠 (7 instancias)
 
-**Problemas:**
-1. ❌ Passwords sin hash (texto plano)
-2. ❌ Sesiones sin expiración
-3. ❌ Cookies sin HttpOnly/Secure flags
+**ZAP Report:** Medium Risk, Medium Confidence  
+**Ubicación:** `POST http://192.168.60.3/app_vulnerable/usuarios.php`
+
+**Problema:** Mensajes de error SQL detallados visibles al usuario
+
+**Ejemplo:**
+```
+Error: Duplicate entry 'admin' for key 'usuarios.PRIMARY'
+→ Revela estructura de BD
+```
+
+**Impacto:** Facilita ataques dirigidos  
+**Instancias encontradas por ZAP:** 7 vulnerabilidades (38.9% del total)
+
+---
+
+### G. Cookie Security Issues 🟡
+
+**ZAP Report:** Low Risk, Medium Confidence
+
+**Problemas encontrados:**
+
+1. **Cookie No HttpOnly Flag** (1 instancia)
+   - Ubicación: `GET http://192.168.60.3/app_vulnerable/login.php`
+   - JavaScript puede acceder a `PHPSESSID`
+
+2. **Cookie without SameSite Attribute** (1 instancia)
+   - Ubicación: `GET http://192.168.60.3/app_vulnerable/login.php`
+   - Vulnerable a CSRF
 
 **HttpOnly:** Evita acceso JS a cookies  
-**Secure:** Solo envía cookies sobre HTTPS
+**Secure:** Solo envía cookies sobre HTTPS  
+**SameSite:** Previene envío en solicitudes cross-site
 
 **Demo:** Mostrar tabla de usuarios con passwords visibles
 
@@ -284,27 +349,93 @@ if (password_verify($input, $stored_hash)) {
 
 ---
 
-## 📊 7. Comparativa (5 min)
+## 📊 7. Resumen Completo de Vulnerabilidades (5 min)
 
-### Antes vs Después
+### Vulnerabilidades Detectadas por ZAP
 
-| Severidad | Antes | Después | Reducción |
-|-----------|-------|---------|-----------|
-| 🔴 Critical | 6 | 0 | **100%** |
-| 🟠 High | 4 | 1 | **75%** |
-| 🟡 Medium | 8 | 2 | **75%** |
-| **TOTAL** | **18** | **3** | **83%** |
+| Alert Type | Risk | Instancias | % del Total |
+|------------|------|------------|-------------|
+| **SQL Injection - MySQL** | 🔴 High | 30 | 166.7% |
+| **XSS Reflected** | 🔴 High | 14 | 77.8% |
+| **XSS Persistent** | 🔴 High | 9 | 50.0% |
+| **Path Traversal** | � High | 2 | 11.1% |
+| **Absence of Anti-CSRF Tokens** | 🟠 Medium | 173 | 961.1% |
+| **Content Security Policy Not Set** | 🟠 Medium | 52 | 288.9% |
+| **Missing Anti-clickjacking Header** | � Medium | 49 | 272.2% |
+| **Application Error Disclosure** | 🟠 Medium | 7 | 38.9% |
+| **Server Leaks Version Info** | 🟡 Low | 54 | 300.0% |
+| **X-Content-Type-Options Missing** | 🟡 Low | 50 | 277.8% |
+| **Cookie No HttpOnly Flag** | 🟡 Low | 1 | 5.6% |
+| **Cookie without SameSite** | 🟡 Low | 1 | 5.6% |
+| **User Controllable HTML Attribute** | ℹ️ Info | 77 | 427.8% |
+| **Authentication Request Identified** | ℹ️ Info | 8 | 44.4% |
+| **Tech Detected (Apache/PHP/Ubuntu)** | ℹ️ Info | 3 | 16.7% |
+| **Session Management Response** | ℹ️ Info | 1 | 5.6% |
+| **TOTAL ÚNICO** | | **18** | **100%** |
 
-**Gráfico visual:**
+**Nota:** Los porcentajes mayores a 100% indican múltiples instancias de la misma vulnerabilidad.
+
+### Análisis de Impacto
+
 ```
-Vulnerabilidades Críticas:
-Antes:  ██████ (6)
-Después: ∅ (0)
+🔴 HIGH (4 tipos):     55 instancias totales
+🟠 MEDIUM (4 tipos):   281 instancias totales
+🟡 LOW (4 tipos):      106 instancias totales
+ℹ️  INFO (6 tipos):    89 instancias totales
+───────────────────────────────────────────────
+TOTAL:                 531 instancias detectadas
 ```
 
 ---
 
-## 🎓 8. Ejercicios Prácticos (10 min)
+## 📑 8. Otras Vulnerabilidades Detectadas (5 min)
+
+### Headers de Seguridad Faltantes
+
+**Content Security Policy (CSP) Not Set** (52 instancias)
+```
+Missing Header: Content-Security-Policy
+→ No controla qué recursos puede cargar la página
+```
+
+**Missing Anti-clickjacking Header** (49 instancias)
+```
+Missing Header: X-Frame-Options
+→ La página puede ser embebida en iframe malicioso
+```
+
+**X-Content-Type-Options Missing** (50 instancias)
+```
+Missing Header: X-Content-Type-Options: nosniff
+→ Permite MIME type sniffing attacks
+```
+
+### Information Disclosure
+
+**Server Leaks Version Information** (54 instancias)
+```
+Server: Apache/2.4.52 (Ubuntu)
+→ Revela versión exacta del servidor
+```
+
+**Tech Detected:**
+- Apache HTTP Server
+- PHP
+- Ubuntu
+
+### Vulnerabilidades Informativas
+
+**User Controllable HTML Element Attribute** (77 instancias)
+- Potencial XSS en atributos HTML
+- Requiere análisis manual para confirmar
+
+**Authentication Request Identified** (8 instancias)
+- ZAP identificó formularios de login
+- Útil para mapeo de la aplicación
+
+---
+
+## 🎓 9. Ejercicios Prácticos (10 min)
 
 ### Ejercicio 1: SQL Injection
 
@@ -317,18 +448,22 @@ Después: ∅ (0)
 
 **Pregunta:** ¿Por qué funciona?
 
+**Respuesta:** ZAP encontró **30 instancias** de SQL Injection
+
 ---
 
 ### Ejercicio 2: XSS
 
 **Tarea:** Ejecutar JavaScript en la búsqueda
 
-**Payloads:**
-- `<script>alert('XSS')</script>`
+**Payloads (confirmados por ZAP):**
+- `"><scrIpt>alert(1);</scRipt>`
 - `<img src=x onerror="alert(1)">`
 - `<svg onload="alert('XSS')">`
 
 **Bonus:** ¿Cómo robarías las cookies?
+
+**Respuesta:** ZAP encontró **14 XSS Reflected** + **9 XSS Persistent**
 
 ---
 
@@ -336,10 +471,21 @@ Después: ∅ (0)
 
 ### Mensajes Clave
 
-1. ✅ **Automatización es clave** - ZAP es muy efectivo
-2. ✅ **OWASP Top 10 sigue vigente** - Vulnerabilidades comunes
+1. ✅ **Automatización es clave** - ZAP detectó **531 instancias** de vulnerabilidades en minutos
+2. ✅ **OWASP Top 10 sigue vigente** - 4 de las Top 10 encontradas (Injection, XSS, Broken Auth, CSRF)
 3. ✅ **Seguridad desde el inicio** - No es un agregado
-4. ✅ **Testing regular** - Análisis continuo
+4. ✅ **Testing regular** - Análisis continuo en cada release
+
+### Hallazgos Principales del Reporte Real
+
+```
+📊 18 tipos únicos de vulnerabilidades
+📊 531 instancias totales detectadas
+📊 4 vulnerabilidades HIGH
+📊 173 formularios sin protección CSRF
+📊 30 puntos de SQL Injection
+📊 23 puntos de XSS (14 reflected + 9 persistent)
+```
 
 ### Recursos
 
