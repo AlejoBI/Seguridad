@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Comparativo de Seguridad</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .card h2 { font-size: 3em; margin-bottom: 10px; }
+        .original { border-top: 4px solid #e74c3c; }
+        .fixed { border-top: 4px solid #27ae60; }
+        .improvement {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .improvement h2 {
+            color: #27ae60;
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .corrections {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .correction-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #27ae60;
+            background: #f0f9f4;
+        }
+        .correction-item h3 { color: #27ae60; }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: #27ae60;
+            color: white;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Análisis Comparativo de Seguridad</h1>
+            <p>Comparación entre código vulnerable y corregido</p>
+            <p>Fecha: 2025-10-30 10:59:48</p>
+        </div>
+        
+        <div class="comparison">
+            <div class="card original">
+                <h2>9</h2>
+                <p>Vulnerabilidades Originales</p>
+                <p style="color: #666; margin-top: 10px;">app_vulnerable.py</p>
+            </div>
+            <div class="card fixed">
+                <h2>1</h2>
+                <p>Vulnerabilidades Restantes</p>
+                <p style="color: #666; margin-top: 10px;">app_corregida.py</p>
+            </div>
+        </div>
+        
+        <div class="improvement">
+            <h2>✅ 88.89%</h2>
+            <p style="text-align: center; font-size: 1.2em; color: #666;">de reducción en vulnerabilidades</p>
+        </div>
+        
+        <div class="corrections">
+            <h2 style="margin-bottom: 20px;">🔧 Correcciones Aplicadas</h2>
+
+            <div class="correction-item">
+                <h3>Secret Key Hardcoded <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Password Hardcoded <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>API Key Hardcoded <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Weak Cryptography <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Insecure Deserialization <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Weak Random Number Generator <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Debug Mode Enabled <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+            <div class="correction-item">
+                <h3>Code Injection (eval) <span class="status-badge">CORREGIDO</span></h3>
+                <p>Original: 1 instancias → Corregido: 0 instancias</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

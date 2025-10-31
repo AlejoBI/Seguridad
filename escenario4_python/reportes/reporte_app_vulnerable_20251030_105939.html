@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Seguridad - app_vulnerable.py</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header h1 { margin-bottom: 10px; }
+        .header p { opacity: 0.9; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .stat-card p { color: #666; }
+        
+        .critical { border-left: 4px solid #e74c3c; }
+        .high { border-left: 4px solid #e67e22; }
+        .medium { border-left: 4px solid #f39c12; }
+        .low { border-left: 4px solid #3498db; }
+        
+        .vulnerability {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .vuln-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .vuln-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .severity-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .severity-CRITICAL { background: #e74c3c; }
+        .severity-HIGH { background: #e67e22; }
+        .severity-MEDIUM { background: #f39c12; }
+        .severity-LOW { background: #3498db; }
+        
+        .vuln-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .vuln-meta span {
+            background: #f0f0f0;
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .recommendation {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        .recommendation strong { color: #2e7d32; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .summary {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .summary h2 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Reporte de Análisis de Seguridad</h1>
+            <p>Archivo: app_vulnerable.py</p>
+            <p>Fecha: 2025-10-30 10:59:39</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card critical">
+                <h3>6</h3>
+                <p>Críticas</p>
+            </div>
+            <div class="stat-card high">
+                <h3>1</h3>
+                <p>Altas</p>
+            </div>
+            <div class="stat-card medium">
+                <h3>2</h3>
+                <p>Medias</p>
+            </div>
+            <div class="stat-card low">
+                <h3>0</h3>
+                <p>Bajas</p>
+            </div>
+        </div>
+        
+        <div class="summary">
+            <h2>📊 Resumen Ejecutivo</h2>
+            <p>Se encontraron <strong>9 vulnerabilidades</strong> en el archivo analizado.</p>
+            <p>Se recomienda priorizar la corrección de vulnerabilidades CRÍTICAS y ALTAS.</p>
+        </div>
+        
+        <h2 style="margin-bottom: 20px;">🔍 Vulnerabilidades Detectadas</h2>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Secret Key Hardcoded</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 15</span>
+                <span>🔖 CWE-798</span>
+                <span>🛡️ A02:2021 – Cryptographic Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Credenciales o secretos están hardcoded en el código fuente</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 15</div>
+                SECRET_KEY = "mi_clave_super_secreta_123"
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar variables de entorno (os.environ.get()) o gestores de secretos
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Password Hardcoded</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 16</span>
+                <span>🔖 CWE-798</span>
+                <span>🛡️ A02:2021 – Cryptographic Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Credenciales o secretos están hardcoded en el código fuente</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 16</div>
+                DATABASE_PASSWORD = "admin123"
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar variables de entorno (os.environ.get()) o gestores de secretos
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">API Key Hardcoded</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 17</span>
+                <span>🔖 CWE-798</span>
+                <span>🛡️ A02:2021 – Cryptographic Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Credenciales o secretos están hardcoded en el código fuente</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 17</div>
+                API_KEY = "sk-1234567890abcdef"
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar variables de entorno (os.environ.get()) o gestores de secretos
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Command Injection</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 41</span>
+                <span>🔖 CWE-78</span>
+                <span>🛡️ A03:2021 – Injection</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Ejecución de comando del sistema usando os.system con input no sanitizado</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 41</div>
+                result = os.system(f"ping -n 1 {host}")
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Validar y sanitizar inputs, usar subprocess con lista de argumentos
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Insecure Deserialization</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 74</span>
+                <span>🔖 CWE-502</span>
+                <span>🛡️ A08:2021 – Software and Data Integrity Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Uso de pickle para deserializar datos sin validación</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 74</div>
+                obj = pickle.loads(data)
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar JSON en lugar de pickle, validar estructura de datos
+            </div>
+        </div>
+
+        <div class="vulnerability critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Code Injection (eval)</div>
+                <span class="severity-badge severity-CRITICAL">CRITICAL</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 119</span>
+                <span>🔖 CWE-95</span>
+                <span>🛡️ A03:2021 – Injection</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Uso de eval() con input del usuario, permite ejecución arbitraria de código</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 119</div>
+                result = eval(expr)
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Nunca usar eval() con input del usuario. Usar ast.literal_eval() o parsers específicos
+            </div>
+        </div>
+
+        <div class="vulnerability high">
+            <div class="vuln-header">
+                <div class="vuln-title">Weak Cryptography</div>
+                <span class="severity-badge severity-HIGH">HIGH</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 22</span>
+                <span>🔖 CWE-327</span>
+                <span>🛡️ A02:2021 – Cryptographic Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Uso de algoritmo criptográfico débil: MD5</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 22</div>
+                return hashlib.md5(password.encode()).hexdigest()
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar SHA-256, bcrypt o Argon2 para passwords
+            </div>
+        </div>
+
+        <div class="vulnerability medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Weak Random Number Generator</div>
+                <span class="severity-badge severity-MEDIUM">MEDIUM</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 92</span>
+                <span>🔖 CWE-338</span>
+                <span>🛡️ A02:2021 – Cryptographic Failures</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Uso de random() para generar valores de seguridad</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 92</div>
+                token = ''.join([str(random.randint(0, 9)) for _ in range(10)])
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar secrets.token_hex() o secrets.token_urlsafe() para valores criptográficos
+            </div>
+        </div>
+
+        <div class="vulnerability medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Debug Mode Enabled</div>
+                <span class="severity-badge severity-MEDIUM">MEDIUM</span>
+            </div>
+            
+            <div class="vuln-meta">
+                <span>📄 Línea 144</span>
+                <span>🔖 CWE-489</span>
+                <span>🛡️ A05:2021 – Security Misconfiguration</span>
+            </div>
+            
+            <p><strong>Descripción:</strong> Modo debug habilitado, expone información sensible</p>
+            
+            <div class="code-block">
+                <div style="color: #75715e;">// Línea 144</div>
+                app.run(debug=True, host='0.0.0.0', port=5000)
+            </div>
+            
+            <div class="recommendation">
+                <strong>✅ Recomendación:</strong> Usar debug=False en producción o leer de variable de entorno
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generado por Analizador de Seguridad Python</p>
+            <p>Escenario 4 - Análisis sin ZAP</p>
+        </div>
+    </div>
+</body>
+</html>

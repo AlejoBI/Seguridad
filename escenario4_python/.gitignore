@@ -35,9 +35,6 @@ env/
 *~
 
 # Reportes generados
-reportes/*.html
-reportes/*.json
-!reportes/.gitkeep
 
 # Database
 *.db
