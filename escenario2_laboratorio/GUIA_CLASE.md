@@ -332,80 +332,14 @@ Después: ∅ (0)
 
 ---
 
-### Ejercicio 3: Análisis con ZAP
-
-**Tarea:** 
-1. Ejecutar spider
-2. Ejecutar active scan
-3. Generar reporte HTML
-4. Identificar la vulnerabilidad más crítica
-
----
-
-## 💡 Tips para la Presentación
-
-### Narrativa
-
-1. **"Hoy analizamos una app REAL con vulnerabilidades REALES"**
-2. **"Miren qué fácil es..."** [demo SQL Injection]
-3. **"Ahora automatizamos con una herramienta profesional"**
-4. **"Encontramos 18 problemas en 15 minutos"**
-5. **"Así se solucionan..."** [mostrar código]
-6. **"Reducción del 83% en vulnerabilidades"**
-
-### Frases Clave
-
-- ✅ "Esta vulnerabilidad está en el OWASP Top 10"
-- ✅ "En producción, esto permitiría..."
-- ✅ "La corrección es simple pero crítica"
-- ✅ "Esto es lo que hacen los pentesters profesionales"
-
-### Preguntas Frecuentes
-
-**P:** ¿Es legal usar ZAP?  
-**R:** Sí, en tus propias aplicaciones o con permiso escrito
-
-**P:** ¿Por qué tantas vulnerabilidades?  
-**R:** Es intencional para demostración educativa
-
-**P:** ¿Cómo aprender más?  
-**R:** OWASP.org, Web Security Academy, Hack The Box
-
----
-
-## 📝 Checklist Pre-Presentación
-
-### Antes de la Clase
-
-- [ ] XAMPP instalado y funcionando
-- [ ] BD importada correctamente
-- [ ] App accesible en http://localhost/lab_seguridad
-- [ ] OWASP ZAP instalado
-- [ ] **Scan pre-ejecutado y sesión guardada** ⭐
-- [ ] Reporte HTML generado
-- [ ] Screenshots de vulnerabilidades clave
-- [ ] Credenciales de prueba anotadas
-
-### Durante Presentación
-
-- [ ] Demostrar SQL Injection en vivo
-- [ ] Demostrar XSS en vivo
-- [ ] Mostrar resultados de ZAP (pre-ejecutado)
-- [ ] Explicar 3-4 vulnerabilidades críticas
-- [ ] Mostrar código antes/después
-- [ ] Ejercicios prácticos para estudiantes
-
----
-
 ## 🎉 Conclusión
 
 ### Mensajes Clave
 
-1. ✅ **DAST complementa SAST** - Ambos son necesarios
-2. ✅ **Automatización es clave** - ZAP es muy efectivo
-3. ✅ **OWASP Top 10 sigue vigente** - Vulnerabilidades comunes
-4. ✅ **Seguridad desde el inicio** - No es un agregado
-5. ✅ **Testing regular** - Análisis continuo
+1. ✅ **Automatización es clave** - ZAP es muy efectivo
+2. ✅ **OWASP Top 10 sigue vigente** - Vulnerabilidades comunes
+3. ✅ **Seguridad desde el inicio** - No es un agregado
+4. ✅ **Testing regular** - Análisis continuo
 
 ### Recursos
 
@@ -413,26 +347,3 @@ Después: ∅ (0)
 - 📚 https://owasp.org/www-project-top-ten/
 - 📚 https://portswigger.net/web-security
 - 📚 DVWA para práctica
-
----
-
-## ⏱️ Backup: Si te Falta Tiempo
-
-**Versión 30 minutos:**
-- Intro (3 min)
-- Demo app + ZAP (10 min)
-- 2 vulnerabilidades críticas (10 min)
-- 1 corrección (5 min)
-- Q&A (2 min)
-
-**Versión 45 minutos:**
-- Intro (5 min)
-- Demo app + ZAP (12 min)
-- 3 vulnerabilidades (15 min)
-- 2 correcciones (8 min)
-- Ejercicio rápido (3 min)
-- Q&A (2 min)
-
----
-
-🎯 **¡Éxito en tu presentación!** 🎯
