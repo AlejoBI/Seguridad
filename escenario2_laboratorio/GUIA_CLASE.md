@@ -8,14 +8,13 @@
 
 ### Escenario 4 vs Escenario 2
 
-| Aspecto | Escenario 4 | Escenario 2 |
-|---------|-------------|-------------|
-| **Tipo** | SAST (Estático) | DAST (Dinámico) |
-| **Herramienta** | Bandit/Pylint | OWASP ZAP |
-| **Analiza** | Código fuente | App ejecutándose |
-| **Cuándo** | Desarrollo | Post-despliegue |
-
-**Mensaje clave:** "Ambos tipos de análisis son complementarios y necesarios"
+| Aspecto | Escenario 2 |
+|---------|-------------|
+| **Tipo** | DAST (Dinámico) |
+| **Descripción** | DAST es un análisis de seguridad que se realiza sobre una aplicación en ejecución, simulando ataques reales desde el exterior. |
+| **Herramienta** | OWASP ZAP |
+| **Analiza** | App ejecutándose |
+| **Cuándo** | Post-despliegue |
 
 ---
 
@@ -41,13 +40,6 @@ http://localhost/lab_seguridad
 ---
 
 ## 🔍 3. OWASP ZAP (5 min)
-
-### ¿Qué es?
-
-- 🆓 Herramienta **gratuita** de la OWASP Foundation
-- 🔍 Proxy interceptor + Scanner automático
-- 🌍 Estándar de la industria
-- 📊 Genera reportes profesionales
 
 ### Cómo Funciona
 
@@ -96,6 +88,9 @@ $username = $_POST['username'];
 $query = "SELECT * FROM usuarios WHERE username = '$username'";
 ```
 
+**Proque es vulnerable:** Sin sanitización, permite inyección directa.
+**Que es sanitización:** Es el proceso de limpiar y validar datos de entrada para evitar ataques.
+
 **Demo en vivo:**
 ```
 Login:
@@ -117,11 +112,16 @@ SELECT * FROM usuarios WHERE username = '' OR '1'='1' AND ...
 
 ### B. XSS Reflejado 🔴
 
+**Descripción:** El XSS reflejado se produce cuando los datos proporcionados por el usuario se reflejan en la respuesta del servidor sin la debida validación o escape.
+
 **Código vulnerable:**
 ```php
 $search = $_GET['search'];
 echo "<p>Resultados: $search</p>";
 ```
+
+**Proque es vulnerable:** Sin escape, permite inyección de scripts.
+**Que es escape:** Es el proceso de convertir caracteres especiales en entidades HTML para evitar la ejecución de scripts.
 
 **Demo en vivo:**
 ```
@@ -143,6 +143,8 @@ Búsqueda:
 
 ### C. XSS Almacenado 🔴
 
+**Descripción:** El XSS almacenado ocurre cuando los datos maliciosos se guardan en el servidor (por ejemplo, en una base de datos) y se muestran a otros usuarios sin la debida validación o escape.
+
 **Diferencia:** Afecta a **TODOS** los usuarios, no solo al atacante
 
 **Demo en vivo:**
@@ -159,6 +161,8 @@ Descripción: <img src=x onerror="alert('XSS')">
 
 ### D. CSRF 🟠
 
+**Descripción:** El CSRF (Cross-Site Request Forgery) es un tipo de ataque que fuerza al navegador a ejecutar acciones no deseadas en una aplicación web en la que el usuario está autenticado.
+
 **¿Qué es?** Fuerza al navegador a ejecutar acciones no deseadas
 
 **Código vulnerable:**
@@ -169,6 +173,8 @@ if (isset($_GET['delete'])) {
     mysqli_query($conn, "DELETE FROM usuarios WHERE id = $id");
 }
 ```
+
+**Porque es vulnerable:** No verifica el origen de la solicitud.
 
 **Ataque conceptual:**
 ```html
@@ -186,6 +192,9 @@ if (isset($_GET['delete'])) {
 1. ❌ Passwords sin hash (texto plano)
 2. ❌ Sesiones sin expiración
 3. ❌ Cookies sin HttpOnly/Secure flags
+
+**HttpOnly:** Evita acceso JS a cookies  
+**Secure:** Solo envía cookies sobre HTTPS
 
 **Demo:** Mostrar tabla de usuarios con passwords visibles
 
